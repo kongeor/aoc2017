@@ -28,7 +28,18 @@
 (add-first-to-end (clean-input data))
 (captca data)
 
-(count
-  (filter #(apply = %)
-          (partition 2 1
-                     (add-first-to-end data))))
+(def sample3 "123123\n")
+
+(defn captca2 [data]
+  (let [in (clean-input data)
+        len (count in)
+        hlen (/ len 2)]
+    (->> (range hlen)
+         (filter #(= (nth in %) (nth in (+ hlen %))))
+         (map #(nth in %))
+         (map int-val)
+         (map (partial * 2))
+         (reduce +))))
+
+(comment
+  (captca2 data))
